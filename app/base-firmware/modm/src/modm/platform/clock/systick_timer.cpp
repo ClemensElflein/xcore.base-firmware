@@ -21,7 +21,7 @@ static volatile uint32_t micro_time{};
 static volatile bool interrupt{};
 
 extern "C" void
-SysTick_Handler(void)
+Modm_SysTick_Handler(void)
 {
 	milli_time += systick_step;
 	micro_time += systick_step * 1'000ul;

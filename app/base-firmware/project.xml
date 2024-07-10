@@ -6,7 +6,6 @@
     </repositories>
     <options>
         <option name="modm:target">stm32h723zgt6</option>
-        <option name="modm:build:cmake:include_cmakelists">yes</option>
     </options>
     <modules>
 <!--        <module>modm:architecture:clock</module>-->

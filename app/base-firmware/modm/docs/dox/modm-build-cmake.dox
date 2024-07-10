@@ -186,5 +186,5 @@ simple telnet client. Disconnect with Ctrl+D.
 
 @warning This overwrites any top-level `CMakeLists.txt` file!
 
-Generated with: `yes in [yes, no]`
+Generated with: `no in [yes, no]`
  */

@@ -48,3 +48,10 @@ modm_extern_c void modm_abandon(const modm::AssertionInfo &info) {
   // priority Interrupt!!!
   // MODM_LOG_ERROR << modm::flush;
 }
+
+extern "C" void TxSysTick_Handler();
+extern "C" void Modm_SysTick_Handler();
+extern "C" void SysTick_Handler() {
+  TxSysTick_Handler();
+  Modm_SysTick_Handler();
+}

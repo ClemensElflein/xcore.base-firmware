@@ -1,2 +1,4 @@
 build/
 cmake-build-debug/
+__pycache__/
+project.xml.log

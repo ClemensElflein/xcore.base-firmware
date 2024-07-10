@@ -25,9 +25,9 @@ cmake_minimum_required(VERSION 3.15)
 set(CMAKE_SYSTEM_NAME Generic)
 set(CMAKE_SYSTEM_PROCESSOR arm)
 set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
-set(TOOLCHAIN_PREFIX "arm-none-eabi")
+set(TOOLCHAIN_PREFIX "/opt/xpack-arm-none-eabi-gcc-12.2.1-1.2/bin/arm-none-eabi")
 set(CMAKE_C_COMPILER ${TOOLCHAIN_PREFIX}-gcc)
-set(CMAKE_ASM_COMPILER ${TOOLCHAIN_PREFIX}-as)
+set(CMAKE_ASM_COMPILER ${TOOLCHAIN_PREFIX}-gcc)
 set(CMAKE_CXX_COMPILER ${TOOLCHAIN_PREFIX}-g++)
 set(CMAKE_SIZE_UTIL ${TOOLCHAIN_PREFIX}-size)
 set(CMAKE_OBJCOPY ${TOOLCHAIN_PREFIX}-objcopy)
@@ -35,16 +35,25 @@ set(CMAKE_OBJDUMP ${TOOLCHAIN_PREFIX}-objdump)
 set(CMAKE_AR ${TOOLCHAIN_PREFIX}-gcc-ar)
 set(CMAKE_NM ${TOOLCHAIN_PREFIX}-gcc-nm)
 
-project(base-firmware CXX C)
+project(base-firmware CXX C ASM)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 add_library(project_options INTERFACE)
 
+# Set target for threadx
+set(THREADX_ARCH cortex_m7)
+set(THREADX_TOOLCHAIN gnu)
+
+
 # Compile libraries
 add_subdirectory(modm)
+add_subdirectory(ext)
+
+target_link_libraries(threadx PUBLIC modm_arch_options)
+
 # Find application sources: Never do this, file changes are not detected by make.
-file(GLOB APP_SOURCE_FILES *.c *.cpp */*.c */*.cpp)
+file(GLOB APP_SOURCE_FILES *.c *.cpp */*.c */*.cpp */*.S)
 add_executable(${CMAKE_PROJECT_NAME} ${APP_SOURCE_FILES})
 
 target_include_directories(${CMAKE_PROJECT_NAME} PUBLIC include)
@@ -52,7 +61,9 @@ target_include_directories(${CMAKE_PROJECT_NAME} PUBLIC include)
 target_link_libraries(${CMAKE_PROJECT_NAME}
   modm
   modm_options
-  modm_warnings)
+  modm_warnings
+        threadx
+)
 
 # Outputs hex and bin files.
 modm_targets_create(${CMAKE_PROJECT_NAME})
