@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$/../.." vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../ext/modm" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../ext/modm/ext/adamgreen/crashcatcher" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../ext/modm/ext/arm/cmsis" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../ext/modm/ext/arm/cmsis-dsp" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../ext/modm/ext/aws/freertos" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../ext/modm/ext/chan/fatfs" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../ext/modm/ext/etlcpp/etl" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../ext/modm/ext/eyalroz/printf" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../ext/modm/ext/gcc/libstdc++" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../ext/modm/ext/hathach/tinyusb" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../ext/modm/ext/lvgl/lvgl" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../ext/modm/ext/microchip/sam" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../ext/modm/ext/modm-devices" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../ext/modm/ext/nanopb/nanopb" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../ext/modm/ext/nlohmann/json" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../ext/modm/ext/ros/ros-lib" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../ext/modm/ext/rp/pico-sdk" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../ext/modm/ext/st/stm32" vcs="Git" />
+  </component>
+</project>

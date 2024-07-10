@@ -1,0 +1,21 @@
+<library>
+    <repositories>
+        <repository>
+            <path>../../ext/modm/repo.lb</path>
+        </repository>
+    </repositories>
+    <options>
+        <option name="modm:target">stm32h723zgt6</option>
+        <option name="modm:build:cmake:include_cmakelists">yes</option>
+    </options>
+    <modules>
+<!--        <module>modm:architecture:clock</module>-->
+        <module>modm:debug</module>
+<!--        <module>modm:platform:clock</module>-->
+        <module>modm:platform:core</module>
+        <module>modm:platform:gpio</module>
+        <module>modm:platform:uart:10</module>
+        <module>modm:build:cmake</module>
+        <module>modm:docs</module>
+    </modules>
+</library>
