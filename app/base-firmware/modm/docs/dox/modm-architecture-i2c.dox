@@ -1,0 +1,10 @@
+/**
+
+@ingroup modm_architecture
+@defgroup modm_architecture_i2c Inter-Integrated Circuit (I²C)
+
+lbuild module: `modm:architecture:i2c`
+
+
+
+ */

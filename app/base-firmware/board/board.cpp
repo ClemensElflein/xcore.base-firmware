@@ -14,28 +14,10 @@
 #include <modm/architecture/interface/assert.hpp>
 #include <modm/architecture/interface/delay.hpp>
 
-Board::LoggerDevice loggerDevice;
-
-// Set all four logger streams to use the UART
-modm::log::Logger modm::log::debug(loggerDevice);
-modm::log::Logger modm::log::info(loggerDevice);
-modm::log::Logger modm::log::warning(loggerDevice);
-modm::log::Logger modm::log::error(loggerDevice);
-
-// Default all calls to printf to the UART
-modm_extern_c void putchar_(char c) { loggerDevice.write(c); }
+modm::I2cEeprom<Board::id::I2C, 1> Board::id::CoreEEPROM{0b10100110};
 
 modm_extern_c void modm_abandon(const modm::AssertionInfo &info) {
-  MODM_LOG_ERROR << "Assertion '" << info.name << "'";
-  if (info.context != uintptr_t(-1)) {
-    MODM_LOG_ERROR << " @ " << (void *)info.context << " ("
-                   << (uint32_t)info.context << ")";
-  }
-#if MODM_ASSERTION_INFO_HAS_DESCRIPTION
-  MODM_LOG_ERROR << " failed!\n  " << info.description << "\nAbandoning...\n";
-#else
-  MODM_LOG_ERROR << " failed!\nAbandoning...\n";
-#endif
+  __disable_irq();
   Board::Leds::setOutput();
   for (int times = 10; times >= 0; times--) {
     Board::Leds::write(1);

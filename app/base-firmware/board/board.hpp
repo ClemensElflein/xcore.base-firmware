@@ -12,23 +12,16 @@
 
 #pragma once
 
-#include <modm/architecture/interface/clock.hpp>
-#include <modm/debug/logger.hpp>
+#include <modm/driver/storage/i2c_eeprom.hpp>
 #include <modm/platform.hpp>
-
-#include "ethernet/nx_ethernet.hpp"
 
 using namespace modm::platform;
 
-/// @ingroup modm_board_nucleo_h723zg
-#define MODM_BOARD_HAS_LOGGER
-
 namespace Board {
-/// @ingroup modm_board_nucleo_h723zg
-/// @{
+
 using namespace modm::literals;
 
-/// STM32H723ZG running at 550MHz from PLL clock generated from 8 MHz HSE
+/// STM32H723ZG running at 550MHz from PLL clock generated from 25 MHz HSE
 struct SystemClock {
   // Max 550MHz
   static constexpr uint32_t SysClk = 550_MHz;
@@ -145,32 +138,26 @@ using LedRed = GpioOutputF11;
 using LedGreen = GpioOutputF12;
 using LedBlue = GpioOutputF13;
 using Leds = SoftwareGpioPort<LedRed, LedGreen, LedBlue>;
-/// @}
 
 namespace eth {
-using RefClkPin = GpioInputA1;
-using MdioPin = GpioInputA2;
-using CrsPin = GpioInputA7;
-using Txd0Pin = GpioOutputB12;
-using MdcPin = GpioOutputC1;
-using Rxd0Pin = GpioInputC4;
-using Rxd1Pin = GpioInputC5;
-using TxcPin = GpioOutputG11;
-using Txd1Pin = GpioOutputG14;
+using RefClkPin = GpioA1;
+using MdioPin = GpioA2;
+using CrsPin = GpioA7;
+using Txd0Pin = GpioB12;
+using MdcPin = GpioC1;
+using Rxd0Pin = GpioC4;
+using Rxd1Pin = GpioC5;
+using TxcPin = GpioG11;
+using Txd1Pin = GpioG14;
 }  // namespace eth
 
-namespace stlink {
-/// @ingroup modm_board_nucleo_h723zg
-/// @{
-using Tx = GpioOutputE3;
-using Rx = GpioInputE2;
-/// @}
-}  // namespace stlink
-
-/// @ingroup modm_board_nucleo_h723zg
-/// @{
-using Uart = BufferedUart<UsartHal10, UartTxBuffer<2048>>;
-using LoggerDevice = modm::IODeviceWrapper<Uart, modm::IOBuffer::BlockIfFull>;
+namespace id {
+using SclPin = GpioD12;
+using SdaPin = GpioD13;
+using I2C = I2cMaster4;
+// Use id::I2C with 1 byte address for the core eeprom.
+extern modm::I2cEeprom<I2C, 1> CoreEEPROM;
+}  // namespace id
 
 inline void initialize() {
   // Need to enable->disable because ethernet driver calls DCache functions
@@ -178,15 +165,16 @@ inline void initialize() {
   SCB_EnableDCache();
   SCB_DisableDCache();
   SystemClock::enable();
-  // SysTickTimer::initialize<SystemClock>();
 
-  Uart::connect<stlink::Tx::Tx, stlink::Rx::Rx>();
-  Uart::initialize<SystemClock, 115200_Bd>();
+  id::I2C::connect<id::SdaPin::Sda, id::SclPin::Scl>();
+  id::I2C::initialize<SystemClock, 100_kHz>();
 
   LedGreen::setOutput(modm::Gpio::Low);
   LedBlue::setOutput(modm::Gpio::Low);
   LedRed::setOutput(modm::Gpio::Low);
 
+  // Manually set AF of eth pins, since we don't use MODM HAL for those
+  // (it's not done yet for Ethernet)
   eth::RefClkPin::setAlternateFunction(0x0B);
   eth::MdioPin::setAlternateFunction(0x0B);
   eth::CrsPin::setAlternateFunction(0x0B);
@@ -199,7 +187,5 @@ inline void initialize() {
 
   Button::setInput();
 }
-
-/// @}
 
 }  // namespace Board

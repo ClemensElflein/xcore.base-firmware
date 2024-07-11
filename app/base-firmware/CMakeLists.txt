@@ -54,7 +54,8 @@ target_link_libraries(threadx PUBLIC modm_arch_options)
 
 # Find application sources: Never do this, file changes are not detected by make.
 file(GLOB APP_SOURCE_FILES *.c *.cpp */*.c */*.cpp */*.S board/ethernet/*.cpp)
-add_executable(${CMAKE_PROJECT_NAME} ${APP_SOURCE_FILES})
+file(GLOB_RECURSE INCLUDES include/**/*.hpp)
+add_executable(${CMAKE_PROJECT_NAME} ${APP_SOURCE_FILES} ${INCLUDES})
 
 target_include_directories(${CMAKE_PROJECT_NAME} PUBLIC include)
 

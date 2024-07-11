@@ -28,6 +28,8 @@
 #include "platform/gpio/software_port.hpp"
 #include "platform/gpio/static.hpp"
 #include "platform/gpio/unused.hpp"
+#include "platform/i2c/i2c_master_4.hpp"
+#include "platform/i2c/i2c_timing_calculator.hpp"
 #include "platform/uart/uart.hpp"
 #include "platform/uart/uart_base.hpp"
 #include "platform/uart/uart_buffer.hpp"

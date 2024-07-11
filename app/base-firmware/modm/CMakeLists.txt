@@ -22,6 +22,7 @@ add_library(modm OBJECT
   ext/gcc/new_delete.cpp
   ext/printf/printf.c
   src/modm/architecture/driver/atomic/flag.cpp
+  src/modm/container/smart_pointer.cpp
   src/modm/io/iostream.cpp
   src/modm/io/iostream_printf.cpp
   src/modm/math/utils/bit_operation.cpp
@@ -37,6 +38,7 @@ add_library(modm OBJECT
   src/modm/platform/core/startup_platform.c
   src/modm/platform/core/vectors.c
   src/modm/platform/gpio/enable.cpp
+  src/modm/platform/i2c/i2c_master_4.cpp
   src/modm/platform/uart/uart_10.cpp
 )
 set_source_files_properties(

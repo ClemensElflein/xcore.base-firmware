@@ -1,0 +1,10 @@
+/**
+
+@ingroup modm_driver
+@defgroup modm_driver_lis3_transport LIS3xx Transport Layer
+
+lbuild module: `modm:driver:lis3.transport`
+
+
+
+ */

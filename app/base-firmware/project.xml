@@ -15,7 +15,9 @@
         <module>modm:platform:core</module>
         <module>modm:platform:gpio</module>
         <module>modm:platform:uart:10</module>
+        <module>modm:platform:i2c:4</module>
         <module>modm:build:cmake</module>
         <module>modm:docs</module>
+        <module>modm:driver:lsm6dso</module>
     </modules>
 </library>
