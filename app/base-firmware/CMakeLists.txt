@@ -53,7 +53,7 @@ add_subdirectory(ext)
 target_link_libraries(threadx PUBLIC modm_arch_options)
 
 # Find application sources: Never do this, file changes are not detected by make.
-file(GLOB APP_SOURCE_FILES *.c *.cpp */*.c */*.cpp */*.S)
+file(GLOB APP_SOURCE_FILES *.c *.cpp */*.c */*.cpp */*.S board/ethernet/*.cpp)
 add_executable(${CMAKE_PROJECT_NAME} ${APP_SOURCE_FILES})
 
 target_include_directories(${CMAKE_PROJECT_NAME} PUBLIC include)
@@ -63,6 +63,7 @@ target_link_libraries(${CMAKE_PROJECT_NAME}
   modm_options
   modm_warnings
         threadx
+        netxduo
 )
 
 # Outputs hex and bin files.

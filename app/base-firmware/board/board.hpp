@@ -16,6 +16,8 @@
 #include <modm/debug/logger.hpp>
 #include <modm/platform.hpp>
 
+#include "ethernet/nx_ethernet.hpp"
+
 using namespace modm::platform;
 
 /// @ingroup modm_board_nucleo_h723zg
@@ -145,6 +147,18 @@ using LedBlue = GpioOutputF13;
 using Leds = SoftwareGpioPort<LedRed, LedGreen, LedBlue>;
 /// @}
 
+namespace eth {
+using RefClkPin = GpioInputA1;
+using MdioPin = GpioInputA2;
+using CrsPin = GpioInputA7;
+using Txd0Pin = GpioOutputB12;
+using MdcPin = GpioOutputC1;
+using Rxd0Pin = GpioInputC4;
+using Rxd1Pin = GpioInputC5;
+using TxcPin = GpioOutputG11;
+using Txd1Pin = GpioOutputG14;
+}  // namespace eth
+
 namespace stlink {
 /// @ingroup modm_board_nucleo_h723zg
 /// @{
@@ -159,6 +173,10 @@ using Uart = BufferedUart<UsartHal10, UartTxBuffer<2048>>;
 using LoggerDevice = modm::IODeviceWrapper<Uart, modm::IOBuffer::BlockIfFull>;
 
 inline void initialize() {
+  // Need to enable->disable because ethernet driver calls DCache functions
+  // which hard fault, if we don't do this on boot.
+  SCB_EnableDCache();
+  SCB_DisableDCache();
   SystemClock::enable();
   // SysTickTimer::initialize<SystemClock>();
 
@@ -168,6 +186,16 @@ inline void initialize() {
   LedGreen::setOutput(modm::Gpio::Low);
   LedBlue::setOutput(modm::Gpio::Low);
   LedRed::setOutput(modm::Gpio::Low);
+
+  eth::RefClkPin::setAlternateFunction(0x0B);
+  eth::MdioPin::setAlternateFunction(0x0B);
+  eth::CrsPin::setAlternateFunction(0x0B);
+  eth::Txd0Pin::setAlternateFunction(0x0B);
+  eth::MdcPin::setAlternateFunction(0x0B);
+  eth::Rxd0Pin::setAlternateFunction(0x0B);
+  eth::Rxd1Pin::setAlternateFunction(0x0B);
+  eth::TxcPin::setAlternateFunction(0x0B);
+  eth::Txd1Pin::setAlternateFunction(0x0B);
 
   Button::setInput();
 }

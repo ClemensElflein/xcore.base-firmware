@@ -434,5 +434,5 @@ Generated with: `0 in [0 ... 0x100000]`
 
 
 
-Generated with: `[] in [Path]`
+Generated with: `board/linkerscript.ld in [Path]`
  */

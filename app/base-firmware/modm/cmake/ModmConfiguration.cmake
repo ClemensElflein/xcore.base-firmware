@@ -185,11 +185,10 @@ function(modm_target_config_create target target_arch target_options target_warn
 
 
   set(LINKFLAGS
-    --specs=nano.specs
     --specs=nosys.specs
     -L${CMAKE_SOURCE_DIR}
     -nostartfiles
-    -Tmodm/link/linkerscript.ld
+    -Tboard/linkerscript.ld
     -Wl,--build-id=sha1
     -Wl,--fatal-warnings
     -Wl,--gc-sections

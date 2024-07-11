@@ -11,16 +11,15 @@ void blink_thread_entry(uint32_t arg) {
   auto now = modm::chrono::milli_clock::now();
   while (1) {
     Board::Leds::toggle();
-    while ((modm::chrono::milli_clock::now() - now).count() < 100) {
-    }
-    now = modm::chrono::milli_clock::now();
+    tx_thread_sleep(100);
   }
 }
 
 void tx_application_define(void *) {
+  nx_ethernet_init();
+
   tx_thread_create(&blink_thread, "Blink", blink_thread_entry, 0,
-                   blink_thread_stack, sizeof(blink_thread_stack),
-                   TX_MAX_PRIORITIES - 1, TX_MAX_PRIORITIES - 2,
+                   blink_thread_stack, sizeof(blink_thread_stack), 1, 1,
                    TX_NO_TIME_SLICE, TX_AUTO_START);
 }
 
