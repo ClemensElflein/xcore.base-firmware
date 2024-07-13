@@ -12,10 +12,12 @@
 
 #pragma once
 
-#include <modm/driver/storage/i2c_eeprom.hpp>
+#include <io/uart/TxUart.hpp>
 #include <modm/platform.hpp>
 
 using namespace modm::platform;
+
+#define MODM_BOARD_HAS_LOGGER
 
 namespace Board {
 
@@ -155,9 +157,16 @@ namespace id {
 using SclPin = GpioD12;
 using SdaPin = GpioD13;
 using I2C = I2cMaster4;
-// Use id::I2C with 1 byte address for the core eeprom.
-extern modm::I2cEeprom<I2C, 1> CoreEEPROM;
 }  // namespace id
+
+namespace debug {
+using TxPin = GpioE3;
+using RxPin = GpioE2;
+using Uart = TxUart<UsartHal10>;
+}  // namespace debug
+
+using LoggerDevice =
+    modm::IODeviceWrapper<debug::Uart, modm::IOBuffer::BlockIfFull>;
 
 inline void initialize() {
   // Need to enable->disable because ethernet driver calls DCache functions
@@ -172,6 +181,9 @@ inline void initialize() {
   LedGreen::setOutput(modm::Gpio::Low);
   LedBlue::setOutput(modm::Gpio::Low);
   LedRed::setOutput(modm::Gpio::Low);
+
+  debug::Uart::connect<debug::TxPin::Tx, debug::RxPin::Rx>();
+  debug::Uart::initialize<SystemClock, 1000000>();
 
   // Manually set AF of eth pins, since we don't use MODM HAL for those
   // (it's not done yet for Ethernet)

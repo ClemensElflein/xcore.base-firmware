@@ -9,7 +9,7 @@
         <option name="modm:platform:cortex-m:linkerscript.override">board/linkerscript.ld</option>
     </options>
     <modules>
-<!--        <module>modm:architecture:clock</module>-->
+        <module>modm:architecture:uart</module>
         <module>modm:debug</module>
 <!--        <module>modm:platform:clock</module>-->
         <module>modm:platform:core</module>

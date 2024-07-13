@@ -119,7 +119,7 @@ public:
 private:
 	static void
 	initializeWithPrescaler(uint32_t timingRegisterValue, uint8_t isrPriority = 10u);
-asasdf
+
 };
 
 
